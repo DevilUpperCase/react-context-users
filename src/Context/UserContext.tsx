@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
 import { IUser } from "../Interfaces/IUser";
-import { users as mock_users } from "../Mock/users";
+import { users as mock_users, users } from "../Mock/users";
 
 /**
  * Export 
-  * UserContextProvider,
-  * UserContext --> needs to be called in App like   useContext(UserContext);
+ * UserContextProvider,
+ * UserContext --> needs to be called in App like   useContext(UserContext);
  */
-export const UserContext = React.createContext<IUserContext | IUser[] >(mock_users);
 
 interface IUserContext {
   users: IUser[];
@@ -19,15 +18,18 @@ interface IProps {
   children: React.ReactNode;
 }
 
-// Children are Components
+/* useState is not needed, useContext can works like a useState */
+const value = {
+  users: users,
+  setUsers: () => {}
+} as IUserContext;
+
+/* It's necessesary to create context, 
+it can be init as undefined if it's needed */
+export const UserContext = React.createContext<IUserContext>(value);
+
+/* Children are Components
+Value can be called from first children using useContext(useContext) */
 export const UserContextProvider = ({ children }: IProps) => {
-  const [users, setUsers] = useState(mock_users);
-
-  const value = {
-    users,
-    setUsers,
-  } as IUserContext;
-
-
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
