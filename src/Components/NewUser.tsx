@@ -5,9 +5,10 @@ import { IUser } from "../Interfaces/IUser";
 export const NewUser = (props: any): JSX.Element => {
   const { users, setUsers } = useContext(UserContext);
 
+  
   /* We copy first user as template to only change his name and set it as new user*/
   const getNewUserByName = (name: string): IUser => {
-    const new_user_by_name = users[0];
+    const new_user_by_name = { ...users[0]};
     new_user_by_name.name = name;
     return new_user_by_name;
   };
